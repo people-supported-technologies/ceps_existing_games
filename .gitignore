@@ -1,0 +1,15 @@
+# macOS
+.DS_Store
+*.DS_Store
+
+# Caches
+*.cache
+*.pyc
+__pycache__/
+
+# Environment
+.env
+
+# Virtual environments
+venv/
+*/venv/

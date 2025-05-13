@@ -1,0 +1,592 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+
+:root {
+    --brand-primary-dark: #190033;
+    --brand-primary-bright: #7F00FF;
+    --brand-primary-light: #E0D0FF;
+
+    --brand-secondary-red-orange: #F85C50;
+    --brand-secondary-orange-yellow: #FAB43A;
+    --brand-secondary-pink: #F89AC9;
+    --brand-secondary-light-blue: #50A5F8;
+    --brand-secondary-green: #50D2A0;
+
+    --brand-tertiary-ochre: #D88C42;
+    --brand-tertiary-blue: #426AF8;
+    
+    --brand-text-main: #1C1C1E; /* Very dark grey, almost black */
+    --brand-text-light: #F8F8F8; /* Light text for dark backgrounds */
+    --brand-background-page: #F5F3F7; /* Light, slightly purplish off-white */
+    --brand-background-card: #FFFFFF;
+    --brand-border-light: #D1C4E9; /* Light purple border */
+    --brand-border-medium: #B39DDB;
+    --brand-black: #000000;
+    --brand-white: #FFFFFF;
+
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --shadow-hover-color: rgba(0, 0, 0, 0.15);
+    --card-shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    background-color: var(--brand-background-page);
+    color: var(--brand-text-main);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
+    background-color: var(--brand-primary-dark);
+    color: var(--brand-text-light);
+    padding: 1rem 20px; /* MODIFIED: Added horizontal padding */
+    text-align: center; /* Will be overridden by flex, but kept for fallback */
+    display: flex; /* ADDED */
+    justify-content: space-between; /* ADDED: Pushes title and button apart */
+    align-items: center; /* ADDED: Vertically aligns title and button */
+}
+
+header h1 {
+    font-size: 1.8rem; /* Base size */
+    margin: 0; /* ADDED: Remove default h1 margin for better flex alignment */
+    font-weight: 700; /* Make header title bolder */
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 20px;
+    gap: 20px;
+    flex-grow: 1;
+}
+
+.card {
+    background-color: transparent;
+    width: 90%; /* Flexible width */
+    max-width: 320px; /* Max width for larger screens */
+    height: 420px; /* Slightly taller to accommodate content better */
+    margin-left: auto; /* Center cards when they stack */
+    margin-right: auto; /* Center cards when they stack */
+    perspective: 1000px; /* For 3D effect */
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Added for hover effect */
+    box-shadow: 0 4px 8px var(--shadow-color); /* Subtle shadow */
+}
+
+/* Subtle hover effect for the card before it's flipped */
+.card:not(.is-flipped):hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 8px 16px var(--shadow-hover-color); /* Slightly more pronounced shadow on hover */
+}
+
+.card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.7s cubic-bezier(0.4, 0.0, 0.2, 1); /* Smoother animation */
+    transform-style: preserve-3d;
+    box-shadow: 0 6px 12px var(--card-shadow-color); /* Refined shadow */
+    border-radius: 10px; /* Ensure inner also has radius for consistency */
+}
+
+.card.is-flipped .card-inner {
+    transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden; /* Safari */
+    backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 25px; /* Increased padding */
+    box-sizing: border-box;
+    border-radius: 10px;
+}
+
+.card-front {
+    background-color: var(--brand-background-card);
+    color: var(--brand-text-main);
+    border: 1px solid var(--brand-border-light);
+}
+
+.card-back {
+    background-color: var(--brand-primary-bright);
+    color: var(--brand-text-light);
+    transform: rotateY(180deg);
+    border: 1px solid var(--brand-primary-bright); /* Ensure border matches bg */
+}
+
+.card h2 {
+    font-size: 1.5rem; /* Base size */
+    font-weight: 700;
+    color: inherit; /* Inherit from card front/back */
+}
+
+.card h3 {
+    font-size: 1.3rem; /* Base size */
+    font-weight: 700;
+    color: inherit;
+}
+
+.card p {
+    font-size: 0.9rem;
+    line-height: 1.4;
+    color: inherit;
+}
+
+.btn {
+    background-color: var(--brand-secondary-light-blue);
+    color: var(--brand-white);
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 15px;
+    display: inline-block;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    border: 1px solid var(--brand-secondary-light-blue);
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: var(--brand-tertiary-blue);
+    color: var(--brand-white);
+    border-color: var(--brand-tertiary-blue);
+}
+
+footer {
+    text-align: center;
+    padding: 1rem 0;
+    background-color: var(--brand-primary-dark);
+    color: var(--brand-text-light);
+    margin-top: auto;
+}
+
+/* Media Queries for Responsiveness */
+
+/* Tablets and smaller desktops */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 1.6rem;
+    }
+
+    .container {
+        padding: 15px;
+        gap: 15px;
+    }
+
+    .card {
+        height: auto; /* Allow height to adjust to content */
+        min-height: 400px; /* Ensure a minimum height */
+    }
+
+    .card h2 {
+        font-size: 1.4rem;
+    }
+
+    .card h3 {
+        font-size: 1.2rem;
+    }
+
+    .card p {
+        font-size: 0.85rem;
+    }
+
+    .btn {
+        padding: 8px 18px;
+        font-size: 0.9rem;
+    }
+}
+
+/* Mobile devices */
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 1.4rem;
+    }
+
+    .card {
+        width: 95%; /* Take up more width on small screens */
+        min-height: 380px; /* Adjust min-height for smaller cards */
+    }
+
+    .card-front, .card-back {
+        padding: 20px; /* Slightly reduce padding on very small screens */
+    }
+
+    .card h2 {
+        font-size: 1.3rem;
+    }
+
+    .card h3 {
+        font-size: 1.1rem;
+    }
+
+    .card p {
+        font-size: 0.8rem;
+    }
+
+    .btn {
+        padding: 7px 15px;
+        font-size: 0.85rem;
+    }
+}
+
+/* Modal Styles */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(25, 0, 51, 0.7); /* Dark Purple overlay, semi-transparent */
+    padding: 50px 20px; /* MODIFIED: Added horizontal padding for viewport gutter */
+    box-sizing: border-box; /* MODIFIED: Ensure padding doesn't add to width/height */
+}
+
+.modal-content {
+    position: relative;
+    margin: auto;
+    padding: 0; /* Padding will be on the card itself */
+    width: 100%; /* MODIFIED: Was 90%, now fills padded .modal space */
+    max-width: 1200px; /* Kept: Modal card to be 1200px wide */
+    display: flex; /* Using flex to help center the card if it's smaller than max-width */
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-close-btn {
+    color: var(--brand-white); /* White close button on dark overlay */
+    position: absolute;
+    top: 10px;
+    right: 25px;
+    font-size: 35px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.modal-close-btn:hover,
+.modal-close-btn:focus {
+    color: var(--brand-primary-light); /* Light purple hover for close button */
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Styles for the card inside the modal */
+.modal-card-container {
+    width: 100%;
+    height: 85vh; /* Adjusted height for better content fit */
+    max-height: 900px;
+    min-height: 600px;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--brand-background-card);
+    border-radius: 10px;
+    box-shadow: 0 8px 20px var(--shadow-hover-color);
+    perspective: 1000px; /* ADDED: Essential for 3D effect on children */
+}
+
+.modal-card-inner {
+    position: relative; /* ADDED: For absolute positioning of front/back */
+    width: 100%; /* ADDED: Ensure it fills the container space */
+    height: 100%; /* ADDED: Ensure it fills the container space */
+    flex-grow: 1; 
+    min-height: 0; 
+    overflow-y: auto; 
+    cursor: pointer; 
+    transform-style: preserve-3d; /* ADDED: Explicitly set for modal context */
+    transition: transform 0.7s cubic-bezier(0.4, 0.0, 0.2, 1); /* Copied from .card-inner */
+}
+
+/* When the modal card container is flipped, rotate its inner content */
+.modal-card-container.is-flipped .modal-card-inner {
+    transform: rotateY(180deg);
+}
+
+.modal-card-front,
+.modal-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden; 
+    backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; 
+    align-items: center;
+    padding: 20px; 
+    box-sizing: border-box;
+    border-radius: 10px; /* This will be on the faces themselves */
+    /* Backgrounds and text colors will be set by .card-front & .card-back general rules, or can be overridden */
+}
+
+.modal-card-front {
+    /* Inherits background and color from .card-front */
+}
+
+.modal-card-back {
+    /* Inherits background and color from .card-back */
+    transform: rotateY(180deg); /* ADDED: Explicitly set for modal context */
+}
+
+/* Show modal-specific content when it's inside the modal */
+.modal-card-front .modal-front-content {
+    display: block; /* Show this block */
+    margin-top: 15px; /* Add some space above the description */
+}
+
+/* Hide the original tile instruction when inside the modal */
+.modal-card-front .tile-instruction {
+    display: none;
+}
+
+/* Style for the description and flip instruction in the modal */
+.modal-card-front .modal-short-description {
+    font-size: 1rem; /* Adjust as needed */
+    line-height: 1.5;
+    margin-bottom: 15px;
+}
+
+.modal-card-front .modal-flip-instruction {
+    font-size: 0.9rem;
+    color: var(--brand-primary-bright); /* Use bright purple for emphasis */
+    margin-top: auto; /* Push to bottom */
+    font-style: italic;
+}
+
+.game-mechanics-content {
+    text-align: left; /* Align text to left for readability */
+    width: 100%;
+}
+
+.game-mechanics-content h3, .game-mechanics-content h4 {
+    color: var(--brand-text-light); /* Assuming dark background for card back (it is, --brand-primary-bright) */
+    margin-bottom: 0.5em;
+}
+
+.game-mechanics-content h3 {
+    font-size: 1.8rem; /* From modal-card-front h2, .modal-card-back h3 */
+    margin-top: 0; /* Reset top margin */
+}
+
+.game-mechanics-content h4 {
+    font-size: 1.4rem;
+    margin-top: 1em;
+}
+
+.game-mechanics-content p {
+    font-size: 1rem; /* From modal-card-front p, .modal-card-back p */
+    line-height: 1.6;
+    margin-bottom: 1em;
+}
+
+.modal-card-front h2, .modal-card-back h3 {
+    font-size: 2rem; /* Larger titles in modal */
+}
+
+.modal-card-front p, .modal-card-back p {
+    font-size: 1.1rem; /* Larger text in modal */
+    line-height: 1.6;
+}
+
+.modal-card-back .btn {
+    padding: 12px 25px;
+    font-size: 1rem;
+}
+
+/* Ensure the modal card is also responsive */
+@media (max-width: 768px) {
+    .modal-content {
+        width: 90%;
+    }
+    .modal-card-container {
+        height: 75vh; /* MODIFIED */
+        min-height: 500px; /* MODIFIED */
+    }
+    .modal-card-front h2, .modal-card-back h3 {
+        font-size: 1.8rem;
+    }
+    .modal-card-front p, .modal-card-back p {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .modal-content {
+        padding-top: 20px; /* Less top padding on very small screens */
+        width: 95%;
+    }
+    .modal-card-container {
+        height: 80vh; /* MODIFIED: Can be taller as it's the main focus */
+        min-height: 400px; /* MODIFIED */
+    }
+    .modal-card-front, .modal-card-back {
+        padding: 20px;
+    }
+    .modal-card-front h2, .modal-card-back h3 {
+        font-size: 1.5rem;
+    }
+    .modal-card-front p, .modal-card-back p {
+        font-size: 0.9rem;
+    }
+    .modal-close-btn {
+        font-size: 30px;
+        top: 5px;
+        right: 15px;
+    }
+}
+
+/* Styles for specific content elements within cards */
+.game-image {
+    width: 100%; /* Make image responsive within card padding */
+    height: 210px; /* Increased height for more visual impact */
+    display: block; /* Remove inline gap below image */
+    object-fit: cover; /* Cover the area, might crop */
+    background-color: var(--brand-primary-light); /* Placeholder background using brand color */
+    border-radius: 6px; /* Slightly reduced for a modern look */
+    margin-bottom: 15px; /* Space below image */
+}
+
+.tile-instruction {
+    font-size: 0.8rem;
+    color: var(--brand-primary-bright); /* Make it stand out a bit */
+    margin-top: auto; /* Push to bottom if card front is flex column */
+}
+
+/* Initially hide modal-specific content on the grid tiles */
+.container .card .modal-front-content {
+    display: none;
+}
+
+/* Notes Feature Styles */
+.modal-notes-section {
+    width: 100%; /* Span full width of modal-card-container */
+    padding: 15px;
+    background-color: var(--brand-primary-light); 
+    border-top: 1px solid var(--brand-border-medium);
+    /* margin-top: 20px; /* REMOVED: No longer needed due to flex layout */
+    box-sizing: border-box;
+    /* border-radius: 0 0 10px 10px; /* REMOVED: Parent .modal-card-container handles border-radius */
+    flex-shrink: 0; /* ADDED: Prevent notes section from shrinking */
+}
+
+.modal-notes-section label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 700; /* Bolder label */
+    color: var(--brand-primary-dark);
+}
+
+.modal-notes-textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--brand-border-medium);
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif; /* Ensure notes area uses Inter */
+    font-size: 0.95rem;
+    margin-bottom: 10px;
+    background-color: var(--brand-white);
+    color: var(--brand-text-main);
+}
+
+.modal-save-note-btn {
+    background-color: var(--brand-secondary-green); /* Explicitly green */
+    color: var(--brand-white);
+    float: right; /* Position to the right */
+    border-color: var(--brand-secondary-green);
+}
+
+.modal-save-note-btn:hover {
+    background-color: #1E7E34; /* Darker green for hover, specific override */
+    border-color: #1E7E34;
+    color: var(--brand-white);
+}
+
+.site-footer {
+    /* ensure export button can be positioned if needed, already has text-align: center */
+    position: relative; /* If needed for absolute positioning of children, though not currently used */
+}
+
+.export-notes-btn {
+    /* Style as a prominent button, maybe different color */
+    background-color: var(--brand-secondary-light-blue); /* Already set by .btn */
+    color: var(--brand-white); /* Already set by .btn */
+    /* margin-bottom: 10px; /* REMOVED: No longer needed for footer spacing */
+    /* margin-top: 15px; from .btn will still apply, or can be overridden if needed */
+    border-color: var(--brand-secondary-light-blue); /* Explicitly set */
+}
+
+.export-notes-btn:hover {
+    background-color: var(--brand-tertiary-blue); /* Already set by .btn:hover */
+    color: var(--brand-white); /* Already set by .btn:hover */
+    border-color: var(--brand-tertiary-blue); /* Explicitly set */
+}
+
+.exported-notes-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7); /* Darker overlay */
+    z-index: 2000; /* Above modal */
+    display: flex; /* For centering content */
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.exported-notes-content {
+    background-color: var(--brand-white);
+    padding: 25px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 700px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    text-align: left;
+}
+
+.exported-notes-content h3 {
+    margin-top: 0;
+    color: var(--brand-primary-dark);
+    font-weight: 700;
+}
+
+#compiledNotesTextarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    border: 1px solid var(--brand-border-medium);
+    border-radius: 4px;
+    font-family: 'Inter', monospace; /* Keep monospace for notes, but Inter as fallback */
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+    background-color: var(--brand-background-page); /* Lighter bg for textarea */
+    color: var(--brand-text-main);
+}
+
+.exported-notes-content button {
+    background-color: var(--brand-secondary-red-orange); /* Distinct color for close/cancel */
+    color: var(--brand-white);
+    border-color: var(--brand-secondary-red-orange);
+}
+
+.exported-notes-content button:hover {
+    background-color: #D43F2E; /* Darker red-orange */
+    border-color: #D43F2E;
+    color: var(--brand-white);
+} 

@@ -372,14 +372,20 @@ footer {
     text-align: left;
     margin-top: 0;
     margin-bottom: 15px;
+    color: var(--brand-text-light); /* ADDED to ensure visibility */
+    flex-grow: 1; /* ADDED to allow this element to take available space */
+    overflow-y: auto; /* ADDED to enable scrolling for long descriptions */
+    min-height: 0; /* ADDED to ensure flex-grow works correctly in some scenarios */
 }
 
 .modal-card-front .modal-flip-instruction {
     font-size: 0.9rem;
     color: var(--brand-primary-light);
     margin-top: auto;
+    padding-top: 10px;
     font-style: italic;
     text-align: center;
+    flex-shrink: 0;
 }
 
 /* MODIFIED RULE for .modal-card-front h2 specifically */
@@ -389,6 +395,7 @@ footer {
     margin-top: 0;
     margin-bottom: 15px;
     color: inherit;
+    flex-shrink: 0; /* ADDED: Prevent shrinking */
 }
 
 /* REPLACED old shared rule with specific for .modal-card-back h3 */
@@ -641,4 +648,9 @@ footer {
     margin-top: 0;
     color: var(--brand-text-main); /* Ensure this aligns with parent color change */
     /* text-align and width will be handled by the .game-mechanics-content h3 rule now */
+}
+
+/* ADDING rule for game-image within modal-card-front */
+.modal-card-front .game-image {
+    flex-shrink: 0; /* ADDED: Prevent shrinking */
 } 

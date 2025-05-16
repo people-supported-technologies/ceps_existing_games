@@ -59,9 +59,10 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             console.log("Modal Front Set To:", modalCardFront.innerHTML);
-            modalCardBack.innerHTML = backContent;
+            modalCardBack.innerHTML = '<div class="game-mechanics-content">'+ backContent + '</div>';
             console.log("Modal Back Set To:", modalCardBack.innerHTML);
 
+            /*
             // --- JAVASCRIPT STYLING DIAGNOSTIC START ---
             const gameMechanicsContentInModal = modalCardBack.querySelector('.game-mechanics-content');
             if (gameMechanicsContentInModal) {
@@ -97,6 +98,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.log(".game-mechanics-content NOT FOUND in modal back");
             }
             // --- JAVASCRIPT STYLING DIAGNOSTIC END ---
+            */
 
             // Ensure modal card is initially showing the front
             modalCardContainer.classList.remove('is-flipped');

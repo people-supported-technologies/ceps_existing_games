@@ -19,6 +19,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     gridCards.forEach(gridCard => {
         gridCard.addEventListener('click', function () {
+            // If this card is a "Coming Soon" card, do nothing
+            if (this.classList.contains('coming-soon-card')) {
+                return;
+            }
+
             // Get content from the clicked grid card
             const gameTitleText = this.querySelector('h2').textContent;
             const gameImageSrc = this.querySelector('.game-image').src;

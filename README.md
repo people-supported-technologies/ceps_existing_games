@@ -86,3 +86,52 @@ We are currently troubleshooting an issue with the flip behavior of the Game Car
 *   **Current Hypothesis:**
     *   Despite the `backface-visibility: hidden` CSS rule being applied to the `.modal-card-front` element (as confirmed by developer tools), it is not effectively preventing the rendering of this element's back when it is rotated away from the viewer.
     *   The exact cause for this failure of `backface-visibility` is still under investigation. Potential causes could include a very subtle CSS conflict not yet identified, a browser-specific rendering quirk related to the specific combination of styles, structure, and animations, or an issue with the 3D rendering context that isn't immediately apparent.
+
+## Current Issue: Styling Game Mechanics on Modal Back Face
+
+We are currently troubleshooting an issue where CSS styles for the "Game Mechanics" section on the back face of the modal card are not being applied as expected. This section includes a heading (e.g., "Core Mechanics:") and a bulleted list of game mechanics.
+
+**Problem Description:**
+- Attempts to style the `h3` heading, `ul` (unordered list), and `li` (list items) within the `.game-mechanics-content` div on the modal's back face are not resulting in visible changes.
+- This includes efforts to left-align text, adjust spacing, and ensure standard bullet point appearance.
+
+**Diagnostic Steps Taken So Far:**
+1.  **CSS with `!important`:** Various CSS rules targeting `.game-mechanics-content h3`, `.game-mechanics-content ul`, and `.game-mechanics-content li` have been applied in `existing_games_folder/style.css` using the `!important` flag to override potential specificity conflicts. These did not produce the desired visual changes.
+2.  **Direct JavaScript Styling (Diagnostic):**
+    *   In `existing_games_folder/script.js`, within the `gridCard.addEventListener('click', function () { ... });` block (specifically after `modalCardBack.innerHTML = backContent;`), diagnostic JavaScript code has been added.
+    *   This JavaScript attempts to:
+        *   Select the `.game-mechanics-content` div, its child `h3`, its child `ul`, and the `li` elements within that `ul` from the `modalCardBack` element *after* its content has been populated.
+        *   Directly apply inline styles to these elements (e.g., `element.style.color = 'red';`, `element.style.textAlign = 'left';`, changing background colors, etc.).
+        *   Log the found elements or "NOT FOUND" messages to the browser's developer console.
+    *   Despite these JavaScript manipulations, no visual changes were observed on the modal's back face for these elements.
+
+**Crucial Next Step for Debugging:**
+
+The immediate next step is to determine if the JavaScript diagnostic code is successfully finding the target HTML elements in the modal's DOM when its back face is displayed.
+
+1.  **Open the browser's Developer Console:**
+    *   Right-click anywhere on the webpage.
+    *   Select "Inspect" or "Inspect Element".
+    *   Navigate to the "Console" tab within the developer tools.
+2.  **Perform a Hard Refresh of the Page:**
+    *   This is crucial to try and bypass any aggressive browser caching of CSS or JavaScript files.
+    *   Windows/Linux: `Ctrl + Shift + R` (or `Ctrl + F5`).
+    *   Mac: `Cmd + Shift + R`.
+3.  **Test the Modal:**
+    *   Click on a game card (e.g., "Darfur is Dying") to open the modal.
+    *   Flip the modal card to its **back face**.
+4.  **Observe and Record Console Output:**
+    *   Carefully examine the messages in the Developer Console. Look for logs originating from the diagnostic JavaScript code, such as:
+        *   `Found .game-mechanics-content in modal: [element]` or `.game-mechanics-content NOT FOUND in modal back`
+        *   `Found h3 in .game-mechanics-content in modal: [element]` or `H3 NOT FOUND in .game-mechanics-content in modal`
+        *   `Found ul in .game-mechanics-content in modal: [element]` or `UL NOT FOUND in .game-mechanics-content in modal`
+        *   `Found li item 0 in ul in modal: [element]` (and for other list items)
+    *   **Please copy these specific log messages accurately.**
+5.  **Observe Visual Changes (from JS):**
+    *   Simultaneously, check if any of the direct style manipulations from the JavaScript diagnostics are visible on the back face (e.g., red text for the heading, colored backgrounds for heading/list/list items, square bullets, forced text alignment). *The user has reported these are NOT visible, which makes the console logs even more important.*
+
+**Interpreting the Results:**
+- If the console logs indicate "NOT FOUND" for these elements, it means the primary issue is that the HTML elements are not present in the modal's DOM as expected when the JavaScript attempts to access them. This could be due to an issue with how `modalCardBack.innerHTML = backContent;` is functioning, or if `backContent` itself doesn't contain the correct structure for the specific card being viewed.
+- If the console *does* log the elements successfully (showing `[element]`), but the JavaScript style manipulations (and CSS ones) have no visual effect, this would point to a very unusual and deep rendering or style overriding issue that needs further investigation at a more fundamental level (e.g., conflicting browser extensions, highly unusual inherited styles, or if the elements are somehow obscured or non-interactive).
+
+This detailed console check is critical to pinpoint why the styling for the game mechanics section is failing.

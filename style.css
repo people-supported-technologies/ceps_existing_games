@@ -106,9 +106,9 @@ header h1 {
     backface-visibility: hidden;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 25px; /* Increased padding */
+    justify-content: flex-start;
+    align-items: stretch;
+    padding: 30px;
     box-sizing: border-box;
     border-radius: 10px;
 }
@@ -130,18 +130,23 @@ header h1 {
     font-size: 1.5rem; /* Base size */
     font-weight: 700;
     color: inherit; /* Inherit from card front/back */
+    margin-bottom: 15px;
+    text-align: center;
 }
 
 .card h3 {
     font-size: 1.3rem; /* Base size */
     font-weight: 700;
     color: inherit;
+    margin-bottom: 10px; /* ADDED */
 }
 
 .card p {
     font-size: 0.9rem;
     line-height: 1.4;
     color: inherit;
+    margin-bottom: 10px;
+    text-align: left;
 }
 
 .btn {
@@ -260,11 +265,12 @@ footer {
     position: relative;
     margin: auto;
     padding: 0; /* Padding will be on the card itself */
-    width: 100%; /* MODIFIED: Was 90%, now fills padded .modal space */
-    max-width: 1200px; /* Kept: Modal card to be 1200px wide */
-    display: flex; /* Using flex to help center the card if it's smaller than max-width */
-    justify-content: center;
-    align-items: center;
+    width: 100%;
+    max-width: 1500px;
+    /* display: flex; */ /* REMOVED for testing width */
+    /* justify-content: center; */ /* REMOVED for testing width */
+    /* align-items: center; */ /* REMOVED for testing width */
+    /* border: 3px solid blue !important; */ /* REMOVED blue border */
 }
 
 .modal-close-btn {
@@ -286,8 +292,11 @@ footer {
 
 /* Styles for the card inside the modal */
 .modal-card-container {
-    width: 100%;
-    height: 85vh; /* Adjusted height for better content fit */
+    width: 600px !important; /* MODIFIED: Adjusted to 600px */
+    max-width: 600px !important; /* MODIFIED: Adjusted to 600px */
+    box-sizing: border-box !important; 
+    margin: auto;
+    height: 85vh;
     max-height: 900px;
     min-height: 600px;
     display: flex;
@@ -295,19 +304,18 @@ footer {
     background-color: var(--brand-background-card);
     border-radius: 10px;
     box-shadow: 0 8px 20px var(--shadow-hover-color);
-    perspective: 1000px; /* ADDED: Essential for 3D effect on children */
+    perspective: 1000px;
 }
 
 .modal-card-inner {
-    position: relative; /* ADDED: For absolute positioning of front/back */
-    width: 100%; /* ADDED: Ensure it fills the container space */
-    height: 100%; /* ADDED: Ensure it fills the container space */
+    position: relative;
+    width: 100%;
+    height: 100%;
     flex-grow: 1; 
     min-height: 0; 
-    /* overflow-y: auto; */ /* TEMPORARILY COMMENTED OUT FOR TESTING */
     cursor: pointer; 
-    transform-style: preserve-3d; /* ADDED: Explicitly set for modal context */
-    transition: transform 0.7s cubic-bezier(0.4, 0.0, 0.2, 1); /* Copied from .card-inner */
+    transform-style: preserve-3d;
+    transition: transform 0.7s cubic-bezier(0.4, 0.0, 0.2, 1);
 }
 
 /* When the modal card container is flipped, rotate its inner content */
@@ -327,26 +335,29 @@ footer {
     display: flex;
     flex-direction: column;
     justify-content: flex-start; 
-    align-items: center;
-    padding: 20px; 
+    align-items: stretch;
+    padding: 30px;
     box-sizing: border-box;
-    border-radius: 10px; /* This will be on the faces themselves */
-    /* Backgrounds and text colors will be set by .card-front & .card-back general rules, or can be overridden */
+    border-radius: 10px;
 }
 
 .modal-card-front {
-    /* Inherits background and color from .card-front */
+    background-color: var(--brand-primary-dark);
+    color: var(--brand-text-light);
+    border: 1px solid var(--brand-primary-dark);
 }
 
 .modal-card-back {
-    /* Inherits background and color from .card-back */
-    transform: rotateY(180deg); /* ADDED: Explicitly set for modal context */
+    background-color: var(--brand-white);
+    color: var(--brand-text-main);
+    transform: rotateY(180deg);
+    border: 1px solid var(--brand-border-medium);
 }
 
 /* Show modal-specific content when it's inside the modal */
 .modal-card-front .modal-front-content {
-    display: block; /* Show this block */
-    margin-top: 15px; /* Add some space above the description */
+    display: block;
+    margin-top: 15px;
 }
 
 /* Hide the original tile instruction when inside the modal */
@@ -356,31 +367,58 @@ footer {
 
 /* Style for the description and flip instruction in the modal */
 .modal-card-front .modal-short-description {
-    font-size: 1rem; /* Adjust as needed */
+    font-size: 1rem;
     line-height: 1.5;
+    text-align: left;
+    margin-top: 0;
     margin-bottom: 15px;
 }
 
 .modal-card-front .modal-flip-instruction {
     font-size: 0.9rem;
-    color: var(--brand-primary-bright); /* Use bright purple for emphasis */
-    margin-top: auto; /* Push to bottom */
+    color: var(--brand-primary-light);
+    margin-top: auto;
     font-style: italic;
+    text-align: center;
+}
+
+/* MODIFIED RULE for .modal-card-front h2 specifically */
+.modal-card-front h2 {
+    font-size: 1.7rem;
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: inherit;
+}
+
+/* REPLACED old shared rule with specific for .modal-card-back h3 */
+.modal-card-back h3 {
+    font-size: 1.8rem;
+    margin-top: 0;
+    color: var(--brand-text-main);
+}
+
+/* The following style for .modal-card-front p, .modal-card-back p might have been partially conflicting or made redundant by the more specific .modal-short-description styling. We'll leave it for now but the specific class takes precedence for the description. */
+.modal-card-front p, .modal-card-back p {
+    font-size: 1.1rem;
+    line-height: 1.6;
 }
 
 .game-mechanics-content {
-    text-align: left; /* Align text to left for readability */
+    text-align: left;
     width: 100%;
 }
 
 .game-mechanics-content h3, .game-mechanics-content h4 {
-    color: var(--brand-text-light); /* Assuming dark background for card back (it is, --brand-primary-bright) */
+    color: var(--brand-text-main);
     margin-bottom: 0.5em;
+    text-align: left !important; /* ADDED for explicit left alignment */
+    width: 100% !important; /* ADDED to ensure full width for alignment */
 }
 
 .game-mechanics-content h3 {
-    font-size: 1.8rem; /* From modal-card-front h2, .modal-card-back h3 */
-    margin-top: 0; /* Reset top margin */
+    font-size: 1.8rem;
+    margin-top: 0;
 }
 
 .game-mechanics-content h4 {
@@ -389,17 +427,13 @@ footer {
 }
 
 .game-mechanics-content p {
-    font-size: 1rem; /* From modal-card-front p, .modal-card-back p */
+    font-size: 1rem;
     line-height: 1.6;
     margin-bottom: 1em;
 }
 
-.modal-card-front h2, .modal-card-back h3 {
-    font-size: 2rem; /* Larger titles in modal */
-}
-
 .modal-card-front p, .modal-card-back p {
-    font-size: 1.1rem; /* Larger text in modal */
+    font-size: 1.1rem;
     line-height: 1.6;
 }
 
@@ -414,8 +448,8 @@ footer {
         width: 90%;
     }
     .modal-card-container {
-        height: 75vh; /* MODIFIED */
-        min-height: 500px; /* MODIFIED */
+        height: 75vh;
+        min-height: 500px;
     }
     .modal-card-front h2, .modal-card-back h3 {
         font-size: 1.8rem;
@@ -427,12 +461,12 @@ footer {
 
 @media (max-width: 480px) {
     .modal-content {
-        padding-top: 20px; /* Less top padding on very small screens */
+        padding-top: 20px;
         width: 95%;
     }
     .modal-card-container {
-        height: 80vh; /* MODIFIED: Can be taller as it's the main focus */
-        min-height: 400px; /* MODIFIED */
+        height: 80vh;
+        min-height: 400px;
     }
     .modal-card-front, .modal-card-back {
         padding: 20px;
@@ -452,19 +486,19 @@ footer {
 
 /* Styles for specific content elements within cards */
 .game-image {
-    width: 100%; /* Make image responsive within card padding */
-    height: 210px; /* Increased height for more visual impact */
-    display: block; /* Remove inline gap below image */
-    object-fit: cover; /* Cover the area, might crop */
-    background-color: var(--brand-primary-light); /* Placeholder background using brand color */
-    border-radius: 6px; /* Slightly reduced for a modern look */
-    margin-bottom: 15px; /* Space below image */
+    width: 100%;
+    height: 210px;
+    display: block;
+    object-fit: contain;
+    background-color: transparent;
+    border-radius: 6px;
+    margin-bottom: 15px;
 }
 
 .tile-instruction {
     font-size: 0.8rem;
-    color: var(--brand-primary-bright); /* Make it stand out a bit */
-    margin-top: auto; /* Push to bottom if card front is flex column */
+    color: var(--brand-primary-bright);
+    margin-top: auto;
 }
 
 /* Initially hide modal-specific content on the grid tiles */
@@ -474,20 +508,18 @@ footer {
 
 /* Notes Feature Styles */
 .modal-notes-section {
-    width: 100%; /* Span full width of modal-card-container */
+    width: 100%;
     padding: 15px;
-    background-color: var(--brand-primary-light); 
-    border-top: 1px solid var(--brand-border-medium);
-    /* margin-top: 20px; /* REMOVED: No longer needed due to flex layout */
+    background-color: var(--brand-white);
+    border: 1px solid var(--brand-primary-dark);
     box-sizing: border-box;
-    /* border-radius: 0 0 10px 10px; /* REMOVED: Parent .modal-card-container handles border-radius */
-    flex-shrink: 0; /* ADDED: Prevent notes section from shrinking */
+    flex-shrink: 0;
 }
 
 .modal-notes-section label {
     display: block;
     margin-bottom: 8px;
-    font-weight: 700; /* Bolder label */
+    font-weight: 700;
     color: var(--brand-primary-dark);
 }
 
@@ -497,7 +529,7 @@ footer {
     border: 1px solid var(--brand-border-medium);
     border-radius: 4px;
     box-sizing: border-box;
-    font-family: 'Inter', sans-serif; /* Ensure notes area uses Inter */
+    font-family: 'Inter', sans-serif;
     font-size: 0.95rem;
     margin-bottom: 10px;
     background-color: var(--brand-white);
@@ -505,36 +537,32 @@ footer {
 }
 
 .modal-save-note-btn {
-    background-color: var(--brand-secondary-green); /* Explicitly green */
+    background-color: var(--brand-secondary-green);
     color: var(--brand-white);
-    float: right; /* Position to the right */
+    float: right;
     border-color: var(--brand-secondary-green);
 }
 
 .modal-save-note-btn:hover {
-    background-color: #1E7E34; /* Darker green for hover, specific override */
+    background-color: #1E7E34;
     border-color: #1E7E34;
     color: var(--brand-white);
 }
 
 .site-footer {
-    /* ensure export button can be positioned if needed, already has text-align: center */
-    position: relative; /* If needed for absolute positioning of children, though not currently used */
+    position: relative;
 }
 
 .export-notes-btn {
-    /* Style as a prominent button, maybe different color */
-    background-color: var(--brand-secondary-light-blue); /* Already set by .btn */
-    color: var(--brand-white); /* Already set by .btn */
-    /* margin-bottom: 10px; /* REMOVED: No longer needed for footer spacing */
-    /* margin-top: 15px; from .btn will still apply, or can be overridden if needed */
-    border-color: var(--brand-secondary-light-blue); /* Explicitly set */
+    background-color: var(--brand-secondary-light-blue);
+    color: var(--brand-white);
+    border-color: var(--brand-secondary-light-blue);
 }
 
 .export-notes-btn:hover {
-    background-color: var(--brand-tertiary-blue); /* Already set by .btn:hover */
-    color: var(--brand-white); /* Already set by .btn:hover */
-    border-color: var(--brand-tertiary-blue); /* Explicitly set */
+    background-color: var(--brand-tertiary-blue);
+    color: var(--brand-white);
+    border-color: var(--brand-tertiary-blue);
 }
 
 .exported-notes-container {
@@ -543,9 +571,9 @@ footer {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.7); /* Darker overlay */
-    z-index: 2000; /* Above modal */
-    display: flex; /* For centering content */
+    background-color: rgba(0,0,0,0.7);
+    z-index: 2000;
+    display: flex;
     justify-content: center;
     align-items: center;
     padding: 20px;
@@ -574,21 +602,43 @@ footer {
     padding: 10px;
     border: 1px solid var(--brand-border-medium);
     border-radius: 4px;
-    font-family: 'Inter', monospace; /* Keep monospace for notes, but Inter as fallback */
+    font-family: 'Inter', monospace;
     font-size: 0.9rem;
     margin-bottom: 15px;
-    background-color: var(--brand-background-page); /* Lighter bg for textarea */
+    background-color: var(--brand-background-page);
     color: var(--brand-text-main);
 }
 
 .exported-notes-content button {
-    background-color: var(--brand-secondary-red-orange); /* Distinct color for close/cancel */
+    background-color: var(--brand-secondary-red-orange);
     color: var(--brand-white);
     border-color: var(--brand-secondary-red-orange);
 }
 
 .exported-notes-content button:hover {
-    background-color: #D43F2E; /* Darker red-orange */
+    background-color: #D43F2E;
     border-color: #D43F2E;
     color: var(--brand-white);
+}
+
+/* ADDED styles for ul/li within game-mechanics-content */
+.game-mechanics-content ul {
+    list-style-position: outside !important; /* MODIFIED with !important */
+    list-style-type: disc !important; /* ADDED to force disc bullets */
+    padding-left: 25px !important; /* MODIFIED with !important and increased indent */
+    margin-top: 0.5em;
+    margin-bottom: 1em;
+    text-align: left !important; /* ADDED for explicit left alignment of the block */
+}
+
+.game-mechanics-content li {
+    margin-bottom: 1em !important; /* MODIFIED with !important and increased spacing */
+    text-align: left !important; /* ADDED for explicit left alignment */
+}
+
+.modal-card-back h3 { /* This rule was specific, ensure it still makes sense or merge */
+    font-size: 1.8rem; 
+    margin-top: 0;
+    color: var(--brand-text-main); /* Ensure this aligns with parent color change */
+    /* text-align and width will be handled by the .game-mechanics-content h3 rule now */
 } 

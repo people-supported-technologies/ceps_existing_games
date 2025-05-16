@@ -20,22 +20,83 @@ document.addEventListener('DOMContentLoaded', function () {
     gridCards.forEach(gridCard => {
         gridCard.addEventListener('click', function () {
             // Get content from the clicked grid card
+            const gameTitleText = this.querySelector('h2').textContent;
+            const gameImageSrc = this.querySelector('.game-image').src;
+            const gameImageAlt = this.querySelector('.game-image').alt;
+
             const frontContentSourceElement = this.querySelector('.modal-front-content');
             const backContentSourceElement = this.querySelector('.game-mechanics-content');
 
             console.log("Source Front Content Element:", frontContentSourceElement);
-            const frontContent = frontContentSourceElement ? frontContentSourceElement.innerHTML : "<!-- Front content source not found -->";
-            console.log("Source Front HTML:", frontContent);
+            const frontModalSpecificContentHTML = frontContentSourceElement ? frontContentSourceElement.innerHTML : "<!-- Front content source not found -->";
+            console.log("Source Front HTML for modal specifics:", frontModalSpecificContentHTML);
 
             console.log("Source Back Content Element:", backContentSourceElement);
             const backContent = backContentSourceElement ? backContentSourceElement.innerHTML : "<!-- Back content source not found -->";
             console.log("Source Back HTML:", backContent);
 
-            // Populate modal card
-            modalCardFront.innerHTML = frontContent;
+            // Clear previous modal front content
+            modalCardFront.innerHTML = '';
+
+            // Create and add the game image
+            const modalImage = document.createElement('img');
+            modalImage.src = gameImageSrc;
+            modalImage.alt = gameImageAlt;
+            modalImage.classList.add('game-image'); // Ensure it gets styled like other game images
+            modalCardFront.appendChild(modalImage);
+
+            // Create and add the game title
+            const modalTitle = document.createElement('h2');
+            modalTitle.textContent = gameTitleText;
+            modalCardFront.appendChild(modalTitle);
+            
+            // Add the rest of the front content (description, flip instruction)
+            // Create a temporary div to append the HTML string, then append its children
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = frontModalSpecificContentHTML;
+            while (tempDiv.firstChild) {
+                modalCardFront.appendChild(tempDiv.firstChild);
+            }
+
             console.log("Modal Front Set To:", modalCardFront.innerHTML);
             modalCardBack.innerHTML = backContent;
             console.log("Modal Back Set To:", modalCardBack.innerHTML);
+
+            // --- JAVASCRIPT STYLING DIAGNOSTIC START ---
+            const gameMechanicsContentInModal = modalCardBack.querySelector('.game-mechanics-content');
+            if (gameMechanicsContentInModal) {
+                console.log("Found .game-mechanics-content in modal:", gameMechanicsContentInModal);
+                const headingInModal = gameMechanicsContentInModal.querySelector('h3');
+                if (headingInModal) {
+                    console.log("Found h3 in .game-mechanics-content in modal:", headingInModal);
+                    headingInModal.style.color = 'red'; // Force color
+                    headingInModal.style.textAlign = 'left'; // Force alignment
+                    headingInModal.style.backgroundColor = 'lightgrey'; // Force background
+                } else {
+                    console.log("H3 NOT FOUND in .game-mechanics-content in modal");
+                }
+
+                const ulInModal = gameMechanicsContentInModal.querySelector('ul');
+                if (ulInModal) {
+                    console.log("Found ul in .game-mechanics-content in modal:", ulInModal);
+                    ulInModal.style.paddingLeft = '30px'; // Force padding
+                    ulInModal.style.listStyleType = 'square'; // Force list style
+                    ulInModal.style.backgroundColor = 'lightblue'; // Force background
+                    const listItemsInModal = ulInModal.querySelectorAll('li');
+                    listItemsInModal.forEach((li, index) => {
+                        console.log(`Found li item ${index} in ul in modal:`, li);
+                        li.style.marginBottom = '12px'; // Force margin
+                        li.style.color = 'purple'; // Force color
+                        li.style.textAlign = 'left'; // Force alignment
+                        li.style.backgroundColor = 'pink'; // Force background
+                    });
+                } else {
+                    console.log("UL NOT FOUND in .game-mechanics-content in modal");
+                }
+            } else {
+                console.log(".game-mechanics-content NOT FOUND in modal back");
+            }
+            // --- JAVASCRIPT STYLING DIAGNOSTIC END ---
 
             // Ensure modal card is initially showing the front
             modalCardContainer.classList.remove('is-flipped');
